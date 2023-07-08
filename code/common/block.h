@@ -2,24 +2,31 @@
 #define BLOCK_H
 #include<utility>
 
-#define road 0 canbedestroyeda/b
+enum BlockType {
+	ROAD = 0,
+	BLOCK_CAN_BE_DESTROYED_1,
+	BLOCK_CAN_BE_DESTROYED_2,
+	BLOCK_CANNOT_BE_DESTROYED_1,
+	BLOCK_CANNOT_BE_DESTROYED_2
+};
 
 class block
 {
 public:
-    block(std::pair<int,int> bCoordinate,bool bIsRoad,bool bCanBeDestroyed):coordinate(bCoordinate),isRoad(bIsRoad),canBeDestroyed(bCanBeDestroyed){}
-    ~block(){}
-    void destory(){
-        if(canBeDestroyed) isRoad=true;
-    }
-    bool go(){
-        return isRoad;
-    }
+	block() = default;
+	block(BlockType bType) : type(bType) {}
+	~block() {}
+	void initial(BlockType newType) { type = newType; }
+	bool changeType() {
+		if (type < 3) {
+			type = ROAD;
+			return true;
+		}
+		return false;
+	}
+
 private:
-	int type;
-    std::pair<int,int> coordinate;
-	bool isRoad=true;
-	bool canBeDestroyed=true;
+	BlockType type;
 };
 
 

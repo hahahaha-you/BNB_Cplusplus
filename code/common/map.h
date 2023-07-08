@@ -2,19 +2,24 @@
 #define MAPP_H_
 #include"block.h"
 #include"character.h"
- 
+
 class map
 {
 public:
-    map(int mRow,int mColumn, std::vector<character*> mPlayer) : rowSize(mRow), columnSize(mColumn), player(mPlayer) {
+    map(int mRow, int mColumn, std::vector<character*> mPlayer) : rowSize(mRow), columnSize(mColumn), player(mPlayer) {
         mapBomb = nullptr;
-    } 
-    ~map(){}
-    void initial(){
-        
+        blockMap = new block[rowSize * columnSize];
     }
-    void setBomb(pair<int, int> mCoordinate) { 
-        mapBomb = new mapWeapon(mCoordinate); 
+    ~map() {}
+    Block* getBlock(int x, int y) {
+        if (x >= rowSize || y >= columnSize) throw();
+        return blockMap[x * columnSize + y];
+    }
+    void initial() {
+
+    }
+    void setBomb(pair<int, int> mCoordinate) {
+        mapBomb = new mapWeapon(mCoordinate);
         mapBomb->setTime();
     }
     void deleteBomb() {
@@ -27,6 +32,7 @@ private:
     int rowSize;
     int columnSize;
     mapWeapon* mapBomb;
+    block* blockMap;
     std::vector<character*> player;
 };
 
