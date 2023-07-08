@@ -71,6 +71,12 @@ public:
     inline std:: pair<double, double> getCoordinate() { return coordinate; }
 
     inline void getWeapon(std::vector<characterWeapon*> &currentWeapon) { currentWeapon = playerWeapon; }
+
+    bool hurt() {
+        lives--;
+        if (lives == 0) return true;
+        return false;
+    }
     
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;

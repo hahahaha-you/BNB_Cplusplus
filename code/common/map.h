@@ -7,7 +7,6 @@ class map
 {
 public:
     map(int mRow, int mColumn, std::vector<character*> mPlayer) : rowSize(mRow), columnSize(mColumn), player(mPlayer) {
-        mapBomb = nullptr;
         blockMap = new block[rowSize * columnSize];
     }
     ~map() {}
@@ -19,21 +18,24 @@ public:
 
     }
     void setBomb(std::pair<int, int> mCoordinate, character* player) {
-        mapBomb = new mapWeapon(mCoordinate, player);
-        mapBomb->setTime();
+        mapWeapon* newMapBomb = new mapWeapon(mCoordinate, player);
+        newMapBomb->setTime();
+        mapBomb.push_back(newMapBomb);
     }
     void deleteBomb() {
-        delete mapBomb;
-        mapBomb = nullptr;
+        mapBomb.erase(mapBomb.begin() + 1);
     }
-    inline mapWeapon* getBomb() { return mapBomb; }
+    inline mapWeapon* getBomb(int index) { 
+        if (index >= mapBomb.size()) return nullptr;
+        return mapBomb[index];
+    }
     inline int getRowSize() { return rowSize; }
     inline int getColumnSize() { return columnSize; }
 
 private:
     int rowSize;
     int columnSize;
-    mapWeapon* mapBomb;
+    std::vector<mapWeapon*>mapBomb;
     block* blockMap;
     std::vector<character*> player;
 };
