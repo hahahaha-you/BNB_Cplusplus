@@ -17,6 +17,7 @@ public:
 	block(BlockType bType) : type(bType) {}
 	~block() {}
 	void initial(BlockType newType) { type = newType; }
+	inline BlockType getType() { return type; }
 	bool changeType() {
 		if (type < 3) {
 			type = ROAD;

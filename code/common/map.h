@@ -1,7 +1,7 @@
 #ifndef MAPP_H_
 #define MAPP_H_
 #include"block.h"
-#include"character.h"
+#include"weapon.h"
 
 class map
 {
@@ -11,22 +11,24 @@ public:
         blockMap = new block[rowSize * columnSize];
     }
     ~map() {}
-    Block* getBlock(int x, int y) {
-        if (x >= rowSize || y >= columnSize) throw();
+    block getBlock(int x, int y) {
+        if (x >= rowSize || y >= columnSize); //will be throw()
         return blockMap[x * columnSize + y];
     }
     void initial() {
 
     }
-    void setBomb(pair<int, int> mCoordinate) {
-        mapBomb = new mapWeapon(mCoordinate);
+    void setBomb(std::pair<int, int> mCoordinate, character* player) {
+        mapBomb = new mapWeapon(mCoordinate, player);
         mapBomb->setTime();
     }
     void deleteBomb() {
         delete mapBomb;
         mapBomb = nullptr;
     }
-    mapWeapon* getBomb() { return mapBomb; }
+    inline mapWeapon* getBomb() { return mapBomb; }
+    inline int getRowSize() { return rowSize; }
+    inline int getColumnSize() { return columnSize; }
 
 private:
     int rowSize;

@@ -5,7 +5,6 @@
 #include<vector>
 #include"weapon.h"
 
-using namespace std;
 enum Operation {
     TURN_LEFT = 0,
     TURN_RIGHT,
@@ -20,20 +19,46 @@ enum Direction {
     UP,
     DOWN
 };
+
+class characterWeapon
+{
+public:
+    characterWeapon(std::string wID) :ID(wID) {
+        if (ID == "bomb") distance = 1;
+    }
+    ~characterWeapon() {}
+    inline std::string getID() { return ID; }
+    inline int getDistance() { return distance; }
+    inline void changeDistance() { if (ID == "bomb") distance++; }
+private:
+    std::string ID;
+    int distance;
+
+};
+
 class character{
 public:
     ~character(){}
-    character(pair<int,int> tCoordinate, double tSpeed) : coordinate(tCoordinate), speed(tSpeed) {
+    character(std::pair<double,double> tCoordinate, double tSpeed) : coordinate(tCoordinate), speed(tSpeed) {
         lives = 1;
         playerDirection = DOWN;
         playerOperation = INVALID_OPERATION;
         characterWeapon* bomb = new characterWeapon("bomb");
         playerWeapon.push_back(bomb);
+        //-1 records the player is not standing in the same position as the bomb now
+        lastBombCoordinate.first = -1;  
     }
-    void move (double dx, double dy){
-        coordinate.first += dx;
-        coordinate.second += dy;
+
+    inline void setLastBombCoordinate() { 
+        lastBombCoordinate.first  = (int)coordinate.first;
+        lastBombCoordinate.second = (int)coordinate.second;
     }
+
+    inline void deleteLastBomb() { lastBombCoordinate.first = -1; }
+
+    inline std:: pair<int, int> getLastBombCoordinate() { return lastBombCoordinate; }
+
+    inline void move(std::pair<double, double> newCoordinate) { coordinate = newCoordinate;}
 
     inline double getSpeed() { return speed; }
 
@@ -43,6 +68,10 @@ public:
 
     inline Direction getDirection() { return playerDirection; }
 
+    inline std:: pair<double, double> getCoordinate() { return coordinate; }
+
+    inline void getWeapon(std::vector<characterWeapon*> &currentWeapon) { currentWeapon = playerWeapon; }
+    
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;
         switch (tOperation) {
@@ -62,11 +91,12 @@ public:
         }
     }
 private:
-    pair<int,int> coordinate;
+    std::pair<double, double> coordinate;
+    std::pair<int, int> lastBombCoordinate;
     double speed;
     Direction playerDirection;
     Operation playerOperation;
-    vector <characterWeapon*> playerWeapon;
+    std::vector <characterWeapon*> playerWeapon;
     int lives;
 };
 
