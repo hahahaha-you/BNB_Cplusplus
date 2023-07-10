@@ -1,4 +1,5 @@
 #include "widget.h"
+#include "../command1.h"
 #include "./ui_widget.h"
 
 Widget::Widget(QWidget *parent)
@@ -6,6 +7,9 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    map = new Map;
+    players.push_back(new character(std::make_pair<double,double>(0,0),0.01));
+    players.push_back(new character(std::make_pair<double,double>(11,11),0.01));
 }
 
 Widget::~Widget()
@@ -33,7 +37,7 @@ void Widget::drawMap()
     QPixmap stonePicture("../../pictures/2BLOCKYELLOW.png");
     QPixmap explosionPicture("../../pictures/explode0.png");
     std::vector<QPixmap> playersPictures;
-    block *aBlock;
+    Block *aBlock;
     int rowNumber = map->getRowSize();
     int columnNumber = map->getColumnSize();
     int x,y;
@@ -93,7 +97,11 @@ void Widget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_D :
         players[0]->updateOperation(TURN_RIGHT);
         break;
+    default: 
+        break;
     }
+    playerCommand cmd1(players[0], map);
+    cmd1.playerOperation();
 }
 
 void Widget::keyReleaseEvent(QKeyEvent *event)
