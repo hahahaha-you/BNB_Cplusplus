@@ -1,9 +1,9 @@
 #pragma once
-#include"map.h"
+#include"common/map.h"
 
 class playerCommand{
 public:
-	playerCommand(character* newPlagyer, map* newMap) : player(newPlagyer), currentMap(newMap) {	}
+	playerCommand(character* newPlagyer, Map* newMap) : player(newPlagyer), currentMap(newMap) {	}
 	// true: player dead
 	bool playerOperation();
 	// change the position of player 
@@ -16,5 +16,5 @@ public:
 	~playerCommand(){}
 private:
 	character* player;
-	map* currentMap;
+	Map* currentMap;
 };  

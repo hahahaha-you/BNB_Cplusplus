@@ -3,22 +3,22 @@
 #include"block.h"
 #include"weapon.h"
 
-class map
+class Map
 {
 public:
-    map(int mRow, int mColumn, std::vector<character*> mPlayer) : rowSize(mRow), columnSize(mColumn), player(mPlayer) {
+    Map(int mRow, int mColumn, std::vector<character*> mPlayer) : rowSize(mRow), columnSize(mColumn), player(mPlayer) {
         blockMap = new block[rowSize * columnSize];
     }
-    ~map() {}
-    block getBlock(int x, int y) {
+    ~Map() {}
+    block *getBlock(int x, int y) {
         if (x >= rowSize || y >= columnSize); //will be throw()
-        return blockMap[x * columnSize + y];
+        return &blockMap[x * columnSize + y];
     }
     void initial() {
 
     }
     void setBomb(std::pair<int, int> mCoordinate, character* player) {
-        mapWeapon* newMapBomb = new mapWeapon(mCoordinate, player);
+        mapWeapon *newMapBomb = new mapWeapon(mCoordinate, player);
         newMapBomb->setTime();
         mapBomb.push_back(newMapBomb);
     }
@@ -29,15 +29,16 @@ public:
         if (index >= mapBomb.size()) return nullptr;
         return mapBomb[index];
     }
-    inline int getRowSize() { return rowSize; }
-    inline int getColumnSize() { return columnSize; }
+    inline int getRowSize() const { return rowSize; }
+    inline int getColumnSize() const { return columnSize; }
+    std::vector<character *> getPlayers() const { return player; }
 
 private:
     int rowSize;
     int columnSize;
     std::vector<mapWeapon*>mapBomb;
-    block* blockMap;
-    std::vector<character*> player;
+    block *blockMap;
+    std::vector<character *> player;
 };
 
 
