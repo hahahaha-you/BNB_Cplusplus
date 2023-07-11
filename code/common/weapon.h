@@ -8,18 +8,18 @@
 class mapWeapon
 {
 public:
-    mapWeapon(std::pair<int, int> mCoordinate, character* player) : coordinate(mCoordinate), owner(player) {
+    mapWeapon(std::pair<int, int> mCoordinate, Character* player) : coordinate(mCoordinate), owner(player) {
         state = 0;
         owner->setLastBombCoordinate();
     }
-    inline character* getOwner() { return owner; }
+    inline Character* getOwner() { return owner; }
     inline void setTime () { startTime = clock(); }
     inline clock_t getTime() { return startTime; }
     inline void changeState(int nextState) { state = nextState; }
     inline int getState() { return state; }
     inline std::pair<int, int> getCoordinate() { return coordinate; }
 private:
-    character* owner;
+    Character* owner;
     std::pair<int, int> coordinate;
     clock_t startTime;
     int state;

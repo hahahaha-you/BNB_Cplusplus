@@ -8,15 +8,15 @@ enum BlockType {
 	BLOCK_CAN_BE_DESTROYED_2,
 	BLOCK_CANNOT_BE_DESTROYED_1,
 	BLOCK_CANNOT_BE_DESTROYED_2,
-	BOMB_EXPLOSION,
-	BOMB_READY
+    BOMB_EXPLOSION,
+    BOMB_READY
 };
 
 class Block
 {
 public:
-	Block() = default;
-	~Block() {}
+    Block() = default;
+    ~Block() {}
 	void initial(BlockType newType) { type = newType; }
 	inline BlockType getType() { return type; }
 	bool downType() {

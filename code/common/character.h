@@ -36,10 +36,10 @@ private:
 
 };
 
-class character{
+class Character{
 public:
-    ~character(){}
-    character(std::pair<double,double> tCoordinate, double tSpeed) : coordinate(tCoordinate), speed(tSpeed) {
+    ~Character(){}
+    Character(std::pair<double,double> tCoordinate, double tSpeed) : coordinate(tCoordinate), speed(tSpeed) {
         lives = 1;
         playerDirection = DOWN;
         playerOperation = INVALID_OPERATION;
