@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QPushButton>
 #include "../common/map.h"
 #include "../common/character.h"
 
@@ -22,16 +23,9 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-public:
-    void sendCommand(int playerNumber,int opr){
-        if (playerNumber == 0)
-            emit player1CommandSignal(opr);
-        else
-            emit player2CommandSignal(opr);
-    }
 signals:
-    void player1CommandSignal(int opr);
-    void player2CommandSignal(int opr);
+    void sendCommand(int playerNumber,int opr);
+    void signalCheckBombs();
 public:
     MainWindow(Map *map,Character *player1,Character *player2,QWidget *parent = nullptr);
     ~MainWindow();
@@ -40,17 +34,17 @@ protected:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-
 private:
     Ui::MainWindow *ui;
     Map *map;
     std::vector<Character *> players;
     QList<int> keys;
     QTimer* keyRespondTimer;
-    QTimer* refreshTimer;
+    QTimer* checkBombsTimer;
+    QPushButton *start;
+    int state = 0;
     void slotTimeOut();
-    void slotRefresh();
-signals:
-    void keySignal(int i);
+    void slotCheckBombs();
+    void slotChangeState();
 };
 #endif // MAINWINDOW_H

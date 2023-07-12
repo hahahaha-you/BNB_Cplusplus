@@ -2,7 +2,7 @@
 #define BOMBAPP_H
 
 #include "../view/mainwindow.h"
-#include "../viewmodel/viewmodelcommand.h"
+#include "../viewmodel/commandviewmodel.h"
 
 class BombApp
 {
@@ -14,9 +14,7 @@ public:
     void show();
 private:
     MainWindow *window;
-    Map *map;
-    std::vector<Character *> players;
-    std::vector<playerCommand *> commands;
+    CommandViewModel *viewModel;
 };
 
 #endif // BOMBAPP_H
