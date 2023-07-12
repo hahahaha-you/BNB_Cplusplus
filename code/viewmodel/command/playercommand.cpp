@@ -35,11 +35,11 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
 	std::pair<int, int> bombCoordinate = currentMap->getBomb(bombIndex)->getCoordinate();
 	//set explosion blocks according to the distance
     //check if the player is attacked by the bomb
-    currentMap->getBlock(bombCoordinate.first, bombCoordinate.second)->upType(BOMB_EXPLOSION);
+    currentMap->getBlock(bombCoordinate.first, bombCoordinate.second)->upType(BOMB_EXPLOSION_CENTRAL);
 	//check 4 directions
 	for (int i = 1; i <= bombDistance; i++) {
         if (bombCoordinate.first + i >= currentMap->getColumnSize()) break;
-        if (!(currentMap->getBlock(bombCoordinate.first + i, bombCoordinate.second)->upType(BOMB_EXPLOSION))) {
+        if (!(currentMap->getBlock(bombCoordinate.first + i, bombCoordinate.second)->upType(BOMB_EXPLOSION_RIGHT))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first + i, bombCoordinate.second)->downType();
 			}
@@ -51,7 +51,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
 	}
 	for (int i = 1; i <= bombDistance; i++) {
         if (bombCoordinate.first - i < 0 ) break;
-        if (!(currentMap->getBlock(bombCoordinate.first - i, bombCoordinate.second)->upType(BOMB_EXPLOSION))) {
+        if (!(currentMap->getBlock(bombCoordinate.first - i, bombCoordinate.second)->upType(BOMB_EXPLOSION_LEFT))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first - i, bombCoordinate.second)->downType();
 			}
@@ -63,7 +63,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
 	}
 	for (int i = 1; i <= bombDistance; i++) {
         if (bombCoordinate.second + i >= currentMap->getRowSize()) break;
-        if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->upType(BOMB_EXPLOSION))) {
+        if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->upType(BOMB_EXPLOSION_UP))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->downType();
 			}
@@ -76,7 +76,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
 	}
 	for (int i = 1; i <= bombDistance; i++) {
         if (bombCoordinate.second - i < 0) break;
-        if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->upType(BOMB_EXPLOSION))) {
+        if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->upType(BOMB_EXPLOSION_DOWN))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->downType();
 			}
@@ -86,14 +86,14 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
             currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->downType();
 		}
     }
-    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() == BOMB_EXPLOSION) return player->hurt();
+    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() > 5) return player->hurt();
     if (currentCoordinate.second != (int)currentCoordinate.second) {
-        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() == BOMB_EXPLOSION) return player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
 	}
     if (currentCoordinate.first != (int)currentCoordinate.first) {
-        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() == BOMB_EXPLOSION) return player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() > 5) return player->hurt();
         if (currentCoordinate.second != (int)currentCoordinate.second) {
-            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() == BOMB_EXPLOSION) return player->hurt();
+            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
 		}
 	}
 }
@@ -129,14 +129,18 @@ void playerCommand::move() {
 		break;
 	default : break;	
     }
-    if (currentMap->getBlock(newCoordinate.first, newCoordinate.second)->getType() != ROAD) return;
+    if (currentMap->getBlock(newCoordinate.first, newCoordinate.second)->getType() > 0 
+		&& currentMap->getBlock(newCoordinate.first, newCoordinate.second)->getType() < 6) return;
     if (newCoordinate.second != (int)newCoordinate.second) {
-        if (currentMap->getBlock(newCoordinate.first, newCoordinate.second + 1)->getType() != ROAD) return;
+        if (currentMap->getBlock(newCoordinate.first, newCoordinate.second + 1)->getType() > 0 
+			&& currentMap->getBlock(newCoordinate.first, newCoordinate.second + 1)->getType() < 6) return;
 	}
     if (newCoordinate.first != (int)newCoordinate.first) {
-        if (currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second)->getType() != ROAD) return;
+        if (currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second)->getType() > 0
+			&& currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second)->getType() < 6) return;
         if (newCoordinate.second != (int)newCoordinate.second) {
-            if (currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second + 1)->getType() != ROAD) return;
+            if (currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second + 1)->getType() > 0
+				&& currentMap->getBlock(newCoordinate.first + 1, newCoordinate.second + 1)->getType() < 6) return;
 		}
 	}
     if (newCoordinate.first < 0 || newCoordinate.first > currentMap->getColumnSize()-1) return;
@@ -190,11 +194,11 @@ bool playerCommand::changeBombState(int checkIndex){
 	}
 
 	if (currentMap->getBomb(checkIndex)->getState() > 1) {
-		currentMap->getBlock(currentMap->getBomb(checkIndex)->getCoordinate().first, currentMap->getBomb(checkIndex)->getCoordinate().second)->downType();
 		std::vector<characterWeapon*> playerWeapon;
 		currentMap->getBomb(checkIndex)->getOwner()->getWeapon(playerWeapon);
 		int bombDistance = playerWeapon[0]->getDistance();
 		explosion(bombDistance, checkIndex, true);
+		currentMap->getBlock(currentMap->getBomb(checkIndex)->getCoordinate().first, currentMap->getBomb(checkIndex)->getCoordinate().second)->downType();
 		currentMap->deleteBomb();
 		return false;
 	}
