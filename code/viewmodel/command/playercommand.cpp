@@ -1,6 +1,7 @@
 #include"playercommand.h"
 
 bool playerCommand::playerOperation() {
+	if (player->getLive() == 0) return true;
 	if (player->getOperation() < 4) this->move();
 	else if (player->getOperation() == ATTACT) this->fight();
 	int bombIndex = 0;

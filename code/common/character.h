@@ -78,6 +78,8 @@ public:
         return false;
     }
     
+    inline int getLive() { return lives; }
+
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;
         switch (tOperation) {
