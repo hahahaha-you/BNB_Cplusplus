@@ -31,13 +31,13 @@ public:
 		return false;
 	}
 
-    bool downTypeWithProp() {
+    /*bool downTypeWithProp() {
 		if (type < 3) {
 			type = PROP;
 			return true;
 		}
 		return false;
-	}
+	}*/
 
 	bool upType(BlockType nextType) {
 		if (type == ROAD) {
