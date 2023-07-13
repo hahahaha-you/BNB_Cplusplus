@@ -12,9 +12,17 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QPushButton>
+#include <QMessageBox>
+#include <QThread>
+#include <QDebug>
 #include "../common/map.h"
 #include "../common/character.h"
 
+enum WindowState {
+    START,
+    RUNNING,
+    END
+};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,11 +48,12 @@ private:
     std::vector<Character *> players;
     QList<int> keys;
     QTimer* keyRespondTimer;
-    QTimer* checkBombsTimer;
+    //QTimer* checkBombsTimer;
     QPushButton *start;
-    int state = 0;
+    WindowState state = START;
     void slotTimeOut();
     void slotCheckBombs();
     void slotChangeState();
+    void slotOpenEndWindow(int playerNumber);
 };
 #endif // MAINWINDOW_H

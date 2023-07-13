@@ -1,9 +1,8 @@
 #include"playercommand.h"
 
 bool playerCommand::playerOperation() {
-	if (player->getOperation() == INVALID_OPERATION) return false;
-	else if (player->getOperation() < 4) this->move();
-	else this->fight();
+	if (player->getOperation() < 4) this->move();
+	else if (player->getOperation() == ATTACT) this->fight();
 	int bombIndex = 0;
     while (1) {
 		//check if the bomb is exploding
