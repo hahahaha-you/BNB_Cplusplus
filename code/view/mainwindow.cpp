@@ -11,10 +11,10 @@ MainWindow::MainWindow(Map *map,Character *player1,Character *player2,QWidget *p
     players.push_back(player2);
     keyRespondTimer = new QTimer(this);
     connect(keyRespondTimer, &QTimer::timeout, this, &MainWindow::slotTimeOut);
-    checkBombsTimer = new QTimer(this);
-    checkBombsTimer->setInterval(50);
-    checkBombsTimer->start();
-    connect(checkBombsTimer, &QTimer::timeout, this, &MainWindow::slotCheckBombs);
+    //checkBombsTimer = new QTimer(this);
+    //checkBombsTimer->setInterval(50);
+    //checkBombsTimer->start();
+    //connect(checkBombsTimer, &QTimer::timeout, this, &MainWindow::slotCheckBombs);
     start = new QPushButton(this);
     connect(start, &QPushButton::clicked, this, &MainWindow::slotChangeState);
 }
@@ -24,9 +24,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
 
-    checkBombsTimer->stop();
+    //checkBombsTimer->stop();
     delete keyRespondTimer;
-    delete checkBombsTimer;
+    //delete checkBombsTimer;
     delete map;
     for (auto it : players)
         delete it;
@@ -37,12 +37,16 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     QPixmap background("../bombtest/resources/images/mainCover.jpg");
     painter.drawPixmap(0, 0, 560, 560, background);
-    if (state == 1) {
+    if (state == RUNNING) {
         QPixmap blockPicture("../bombtest/resources/images/2BLOCKBG.png");
         QPixmap bombPicture("../bombtest/resources/images/bomb.png");
         QPixmap boxPicture("../bombtest/resources/images/2BLOCKYELLOW.png");
         QPixmap stonePicture("../bombtest/resources/images/2BLOCKBLACK.png");
-        QPixmap explosionPicture("../bombtest/resources/images/explode0.png");
+        QPixmap upWavePicture("../bombtest/resources/images/upwave.png");
+        QPixmap downWavePicture("../bombtest/resources/images/downwave.png");
+        QPixmap leftWavePicture("../bombtest/resources/images/leftwave.png");
+        QPixmap rightWavePicture("../bombtest/resources/images/rightwave.png");
+        QPixmap centerWavePicture("../bombtest/resources/images/centerwave.png");
         QPixmap playersPicture;
         Block *aBlock;
         int rowNumber = map->getRowSize();
@@ -65,8 +69,20 @@ void MainWindow::paintEvent(QPaintEvent *)
                 case BLOCK_CANNOT_BE_DESTROYED_2:
                     painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, stonePicture);
                     break;
-                case BOMB_EXPLOSION:
-                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, explosionPicture);
+                case BOMB_EXPLOSION_LEFT:
+                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, leftWavePicture);
+                    break;
+                case BOMB_EXPLOSION_RIGHT:
+                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, rightWavePicture);
+                    break;
+                case BOMB_EXPLOSION_UP:
+                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, upWavePicture);
+                    break;
+                case BOMB_EXPLOSION_DOWN:
+                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, downWavePicture);
+                    break;
+                case BOMB_EXPLOSION_CENTRAL:
+                    painter.drawPixmap(x, y, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, centerWavePicture);
                     break;
                 default:
                     break;
@@ -78,7 +94,8 @@ void MainWindow::paintEvent(QPaintEvent *)
         for (mapWeapon *bomb = map->getBomb(bombIndex); bomb != nullptr; bomb = map->getBomb(++bombIndex)) {
             int bombX = bomb->getCoordinate().first;
             int bombY = bomb->getCoordinate().second;
-            painter.drawPixmap((bombX + 1) * BLOCK_SIDE_LENGTH, (bombY + 1) * BLOCK_SIDE_LENGTH,
+            if (map->getBlock(bombX,bombY)->getType() != BOMB_EXPLOSION_CENTRAL)
+                painter.drawPixmap((bombX + 1) * BLOCK_SIDE_LENGTH, (bombY + 1) * BLOCK_SIDE_LENGTH,
                            BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, bombPicture);
         }
 
@@ -105,7 +122,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                            BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1, playersPicture);
         }
     }
-    else {
+    else if (state == START) {
         QPixmap icon("../bombtest/resources/images/start.png");
         start->setParent(this);
         start->setIcon(icon);
@@ -114,6 +131,10 @@ void MainWindow::paintEvent(QPaintEvent *)
         start->setStyleSheet("QPushButton{color:white; background-color:transparent;}");
         start->move(200,460);
         start->setFixedSize(icon.size());
+    }
+    else if (state == END) {
+        QPixmap end("../bombtest/resources/images/gameover.png");
+        painter.drawPixmap(120,200,320,160,end);
     }
 }
 
@@ -127,8 +148,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if(!event->isAutoRepeat())  //判断如果不是长按时自动触发的按下,就将key值加入容器
         keys.append(event->key());
-    if(!keyRespondTimer->isActive()) //如果定时器不在运行，就启动一下
-        keyRespondTimer->start(4);
+    bool flag = !keyRespondTimer->isActive();
+    if(flag) //如果定时器不在运行，就启动一下
+        keyRespondTimer->start(10);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
@@ -138,20 +160,21 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     case Qt::Key_S :
     case Qt::Key_W :
     case Qt::Key_D :
+    case Qt::Key_Space:
         emit sendCommand(0,5);
         break;
     case Qt::Key_Up :
     case Qt::Key_Down :
     case Qt::Key_Left :
     case Qt::Key_Right :
+    case Qt::Key_O:
         emit sendCommand(1,5);
         break;
     }
     if(!event->isAutoRepeat())  //判断如果不是长按时自动触发的释放,就将key值从容器中删除
         keys.removeAll(event->key());
-    if(keys.isEmpty()&&keyRespondTimer->isActive()) //容器空了，关闭定时器
-        keyRespondTimer->stop();
-
+    //if(keys.isEmpty()&&keyRespondTimer->isActive()) //容器空了，关闭定时器
+        //keyRespondTimer->stop();
 }
 
 void MainWindow::slotTimeOut()
@@ -185,10 +208,18 @@ void MainWindow::slotTimeOut()
         case Qt::Key_Right:
             emit sendCommand(1,1);
             break;
+        case Qt::Key_O:
+            emit sendCommand(1,4);
+            break;
         default:
             break;
         }
     }
+    if (keys.isEmpty()) {
+        emit sendCommand(0,5);
+        emit sendCommand(1,5);
+    }
+
     this->update();
 }
 
@@ -199,8 +230,17 @@ void MainWindow::slotCheckBombs()
 
 void MainWindow::slotChangeState()
 {
-    state = 1;
+    state = RUNNING;
     start->close();
     this->setFocus();
     this->update();
+}
+
+void MainWindow::slotOpenEndWindow(int playerNumber) {
+    QString information = "玩家" + QString::number(playerNumber + 1) + "胜利！";
+
+    state = END;
+    this->update();
+    QThread::msleep(2000);
+    QMessageBox::information(this,"游戏结束！",information);
 }
