@@ -2,6 +2,7 @@
 #define MAPP_H_
 #include"block.h"
 #include"weapon.h"
+#include"prop.h"
 #include <fstream>
 #include<ctime>
 #include<random>
@@ -22,18 +23,29 @@ public:
     void initial() {
         std::ifstream  fin;
         fin.open ("../bombtest/resources/maps/map.txt" ,std::ios::in);
+        int j=0,k=0,m=0;
         for(int i = 0; i < rowSize * columnSize; i++){
             char ch;
             fin >> ch;
             if (ch == '0') blockMap[i].initial(ROAD);
             else if (ch == '1') blockMap[i].initial(BLOCK_CAN_BE_DESTROYED_1);
             else if (ch == '3') blockMap[i].initial(BLOCK_CANNOT_BE_DESTROYED_1);
+            else if (ch == '4') {
+                blockMap[i].initial(BLOCK_CAN_BE_DESTROYED_1);
+                Prop * p = new Prop(std::make_pair(i%columnSize,i/columnSize),LASER,j);
+                j++;
+                mapProp.push_back(p);
+            }
             else if (ch == ' ' || ch == '\n') i--;
         }
     }
 
-
-
+    // bool hiddenPropThere(std::pair<int, int> mCoordinate) {
+    //     for(int i=0;i<columnSize*rowSize;i++){
+    //         if(mCoordinate==mapProp[i]->getCoordinate())return true;
+    //     }
+    //     return false;
+    // }
 
     void setBomb(std::pair<int, int> mCoordinate, Character* player) {
         mapWeapon *newMapBomb = new mapWeapon(mCoordinate, player);
@@ -55,6 +67,7 @@ private:
     int columnSize;
     std::vector<mapWeapon*> mapBomb;
     Block *blockMap;
+    std::vector<Prop*> mapProp;
 };
 
 
