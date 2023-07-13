@@ -1,7 +1,11 @@
+#include<utility>
+#include"character.h"
+
 #ifndef _PROP_H_
 #define _PROP_H_
 #include<utility>
-#include"character.h"   
+#include"character.h"
+
 
 enum propType{
     LASER
@@ -20,7 +24,14 @@ public:
     inline std::pair<int,int> getCoordinate() { return coordinate; }
     inline propType getType() { return type; }
     inline int getID() { return ID; }
-    inline void pickUpProp() { exist = false; }
+    inline bool pickUpProp() { 
+        if(exist){
+            exist = false; 
+            return true;
+        }
+        return false;
+    }
+    // inline bool propExists() { return exist; }
 };
 
-#endif
+#endif //_PROP_H_

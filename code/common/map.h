@@ -30,13 +30,6 @@ public:
             if (ch == '0') blockMap[i].initial(ROAD);
             else if (ch == '1') blockMap[i].initial(BLOCK_CAN_BE_DESTROYED_1);
             else if (ch == '3') blockMap[i].initial(BLOCK_CANNOT_BE_DESTROYED_1);
-            else if (ch == '4') {
-                blockMap[i].initial(BLOCK_CAN_BE_DESTROYED_1);
-                Prop * p = new Prop(std::make_pair(i%columnSize,i/columnSize),LASER,j);
-                j++;
-                mapProp.push_back(p);
-            }
-            else if (ch == ' ' || ch == '\n') i--;
         }
     }
 
@@ -47,6 +40,15 @@ public:
     //     return false;
     // }
 
+    inline int getPropNumber() { return mapProp.size(); }
+
+    inline Prop * getProp(int cnt) { 
+        if(cnt<mapProp.size()) return mapProp[cnt]; 
+        else throw("mapProp cross the boarder.");
+    }
+
+    inline void addProp(Prop * p) { mapProp.push_back(p); }
+
     void setBomb(std::pair<int, int> mCoordinate, Character* player) {
         mapWeapon *newMapBomb = new mapWeapon(mCoordinate, player);
         newMapBomb->setTime();
@@ -55,9 +57,15 @@ public:
     void deleteBomb() {
         mapBomb.erase(mapBomb.begin() + 1);
     }
+    void deleteWeapon() {
+        mapBomb.erase(mapBomb.end()--);
+    }
     inline mapWeapon* getBomb(int index) {
         if (index >= mapBomb.size()) return nullptr;
         return mapBomb[index];
+    }
+    inline mapWeapon* getBomb() {
+        return mapBomb.back();
     }
     inline int getRowSize() const { return rowSize; }
     inline int getColumnSize() const { return columnSize; }

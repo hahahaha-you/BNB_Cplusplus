@@ -54,7 +54,19 @@ public:
         lastBombCoordinate.second = (int)coordinate.second;
     }
 
+    inline void setBomb(std::string wID) {
+        characterWeapon * newBomb = new characterWeapon(wID);
+        playerWeapon.push_back(newBomb);
+    }
+
     inline void deleteLastBomb() { lastBombCoordinate.first = -1; }
+
+    inline void deleteLastWeapon() { 
+        lastBombCoordinate.first = -1;
+        lastBombCoordinate.second = -1;
+        delete playerWeapon.back();
+        playerWeapon.erase(playerWeapon.end()--); 
+    }
 
     inline std:: pair<int, int> getLastBombCoordinate() { return lastBombCoordinate; }
 
@@ -78,8 +90,6 @@ public:
         return false;
     }
     
-    inline int getLive() { return lives; }
-
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;
         switch (tOperation) {
