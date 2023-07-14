@@ -2,14 +2,16 @@
 #include"../../common/map.h"
 #include<utility>
 
-enum laserState{
+enum laserState
+{
     WITHOUT,
     PICKUP,
     WAITING,
     EXCITE
 };
 
-class Laser{
+class Laser
+{
 public:
 	Laser(Character* newPlayer, Map* newMap);
     bool pickUp();
