@@ -42,8 +42,8 @@ public:
 
     inline int getPropNumber() { return mapProp.size(); }
 
-    inline Prop * getProp(int cnt) { 
-        if(cnt<mapProp.size()) return mapProp[cnt]; 
+    inline Prop * getProp(int cnt) {
+        if(cnt<mapProp.size()) return mapProp[cnt];
         else throw("mapProp cross the boarder.");
     }
 
@@ -55,7 +55,7 @@ public:
         mapBomb.push_back(newMapBomb);
     }
     void deleteBomb() {
-        mapBomb.erase(mapBomb.begin() + 1);
+        mapBomb.erase(mapBomb.begin());
     }
     void deleteWeapon() {
         mapBomb.erase(mapBomb.end()--);
