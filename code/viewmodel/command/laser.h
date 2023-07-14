@@ -1,18 +1,28 @@
 #pragma once
-#include"map.h"
+#include"../../common/map.h"
 #include<utility>
+
+enum laserState{
+    WITHOUT,
+    PICKUP,
+    WAITING,
+    EXCITE
+};
+
 class Laser{
 public:
 	Laser(Character* newPlayer, Map* newMap);
-    bool pickUpLaser();
-    void explosionLaser();
-    bool explosionPlayer(Character * explodePlayer);
+    bool pickUp();
+    bool explosionLaser(Character * explodePlayer);
     void recover();
-    bool changeState(int checkIndex);
+    bool changeState();
 	~Laser(){}
 private:
 	Character* player;
+    Character * otherPlayer;
 	Map* currentMap;
     std::pair<int,int> coordinate;
     Direction playerDirection;
+    laserState state; 
+    propType type;
 };  

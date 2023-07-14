@@ -76,6 +76,8 @@ public:
 
     inline void addSpeed() { speed += 0.01; }
 
+    inline void changeSpeed(double nextSpeed) { speed = nextSpeed; }
+
     inline Operation getOperation() { return playerOperation; }
 
     inline Direction getDirection() { return playerDirection; }
@@ -89,6 +91,8 @@ public:
         if (lives == 0) return true;
         return false;
     }
+
+    inline int getLive() { return lives; }
     
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;

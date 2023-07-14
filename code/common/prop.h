@@ -1,6 +1,3 @@
-#include<utility>
-#include"character.h"
-
 #ifndef _PROP_H_
 #define _PROP_H_
 #include<utility>
@@ -8,8 +5,9 @@
 
 
 enum propType{
-    LASER
-
+    LASER,
+    SPEEDUP,
+    BIGBOMB
 };
 
 class Prop {
@@ -31,7 +29,7 @@ public:
         }
         return false;
     }
-    // inline bool propExists() { return exist; }
+    inline bool propExists() { return exist; }
 };
 
 #endif //_PROP_H_
