@@ -173,7 +173,9 @@ void playerCommand::move() {
 }
 
 void playerCommand::fight() {
-    std::pair<int, int> currentCoordinate = player->getCoordinate();
+    std::pair<int, int> currentCoordinate;
+	currentCoordinate.first = player->getCoordinate().first + 0.5;
+	currentCoordinate.second = player->getCoordinate().second + 0.5;
     std::vector<characterWeapon*> currentWeapon;
     player->getWeapon(currentWeapon);
     if (currentWeapon.size() == 1) {
