@@ -21,5 +21,13 @@ void CommandViewModel :: initial(){
     p2->initial(std::make_pair<double, double>(11,11), map);
     playerControl.push_back(p1);
     playerControl.push_back(p2);
+    Character * player1 = getPlayerControl()[0]->getPlayer();
+    Character * player2 = getPlayerControl()[1]->getPlayer();
+    Laser * L1 = new Laser(player1,player2,map);
+    L1->changeState();
+    playerWeapons.push_back(L1);
+    Laser * L2 = new Laser(player2,player1,map);
+    L2->changeState();
+    playerWeapons.push_back(L2);
 }
 

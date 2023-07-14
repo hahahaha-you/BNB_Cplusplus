@@ -1,18 +1,19 @@
-#include"Laser.h"
+#include"laser.h"
 
-Laser::Laser(Character* newPlayer, Map* newMap) : player(newPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)) {
+Laser::Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap) : player(newPlayer),otherPlayer(newOtherPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)) {
     //initial
     std::ifstream  fin;
-    fin.open ("../../bombtest/resources/maps/laserMap.txt" ,std::ios::in);
+    fin.open ("../bombtest/resources/maps/laserMap.txt" ,std::ios::in);
     int j=0,k=0,m=0,pID=0;        //different IDs of different props 
     for(int i = 0; i < currentMap->getColumnSize()*currentMap->getRowSize(); i++){
         char ch;
         fin >> ch;
-        if (ch == '0') continue;
+        if (ch == '0')
+            continue;
         else if (ch == ' ' || ch == '\n') i--;
         else if(currentMap->getBlock(i%currentMap->getColumnSize(),i/currentMap->getColumnSize())->getType()==BLOCK_CAN_BE_DESTROYED_1) {
             propType currentProp;
-            if(ch == '1') {
+            if (ch == '1') {
                 currentProp = LASER;
                 pID=j++;
             }else if (ch == '2'){

@@ -11,7 +11,7 @@ enum laserState{
 
 class Laser{
 public:
-	Laser(Character* newPlayer, Map* newMap);
+    Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap);
     bool pickUp();
     bool explosionLaser(Character * explodePlayer);
     void recover();

@@ -22,7 +22,7 @@ public:
     inline std::pair<int,int> getCoordinate() { return coordinate; }
     inline propType getType() { return type; }
     inline int getID() { return ID; }
-    inline bool pickUpProp() { 
+    inline bool pickUpProp() {
         if(exist){
             exist = false; 
             return true;

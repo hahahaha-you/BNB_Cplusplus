@@ -46,10 +46,10 @@ public:
         characterWeapon* bomb = new characterWeapon("bomb");
         playerWeapon.push_back(bomb);
         //-1 records the player is not standing in the same position as the bomb now
-        lastBombCoordinate.first = -1;  
+        lastBombCoordinate.first = -1;
     }
 
-    inline void setLastBombCoordinate() { 
+    inline void setLastBombCoordinate() {
         lastBombCoordinate.first  = (int)coordinate.first;
         lastBombCoordinate.second = (int)coordinate.second;
     }
@@ -61,11 +61,11 @@ public:
 
     inline void deleteLastBomb() { lastBombCoordinate.first = -1; }
 
-    inline void deleteLastWeapon() { 
+    inline void deleteLastWeapon() {
         lastBombCoordinate.first = -1;
         lastBombCoordinate.second = -1;
         delete playerWeapon.back();
-        playerWeapon.erase(playerWeapon.end()--); 
+        playerWeapon.erase(playerWeapon.end()--);
     }
 
     inline std:: pair<int, int> getLastBombCoordinate() { return lastBombCoordinate; }
@@ -93,7 +93,7 @@ public:
     }
 
     inline int getLive() { return lives; }
-    
+
     void updateOperation (Operation tOperation) {
         playerOperation = tOperation;
         switch (tOperation) {
