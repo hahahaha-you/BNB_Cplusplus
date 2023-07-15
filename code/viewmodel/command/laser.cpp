@@ -64,7 +64,7 @@ bool Laser::pickUp(){
 
 bool Laser::explosionLaser(Character * explodePlayer){
     //get the coordinate of the bomb
-	std::pair<double, double> currentCoordinate = player->getCoordinate();
+//	std::pair<double, double> currentCoordinate = player->getCoordinate();
 	//get the coordinate of the player
 	// std::pair<int, int> otherPlayerCoordinate = std::pair<int,int>((int)(otherPlayer->getCoordinate().first),(int)(otherPlayer->getCoordinate().second));
 	coordinate = std::pair<int,int>((int)(player->getCoordinate().first),(int)(player->getCoordinate().second));          //bomb_index
