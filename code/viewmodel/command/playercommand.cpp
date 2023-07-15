@@ -42,6 +42,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
         if (!(currentMap->getBlock(bombCoordinate.first + i, bombCoordinate.second)->upType(BOMB_EXPLOSION_RIGHT))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first + i, bombCoordinate.second)->downType();
+                continue;
             }
             break;
         }
@@ -54,6 +55,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
         if (!(currentMap->getBlock(bombCoordinate.first - i, bombCoordinate.second)->upType(BOMB_EXPLOSION_LEFT))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first - i, bombCoordinate.second)->downType();
+                continue;
             }
             break;
         }
@@ -66,8 +68,9 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
         if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->upType(BOMB_EXPLOSION_DOWN))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->downType();
+                continue;
             }
-            break;
+            break; 
         }
         if (isRemoveBlock) {
             currentMap->getBlock(bombCoordinate.first, bombCoordinate.second + i)->downType();
@@ -79,6 +82,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
         if (!(currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->upType(BOMB_EXPLOSION_UP))) {
             if (isRemoveBlock) {
                 currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->downType();
+                continue;
             }
             break;
         }
@@ -86,14 +90,14 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
             currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->downType();
         }
     }
-    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() > 5) return true;//player->hurt();
+    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() > 5) return player->hurt();
     if (currentCoordinate.second != (int)currentCoordinate.second) {
-        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() > 5) return true;//player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
     }
     if (currentCoordinate.first != (int)currentCoordinate.first) {
-        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() > 5) return true;//player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() > 5) return player->hurt();
         if (currentCoordinate.second != (int)currentCoordinate.second) {
-            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() > 5) return true;// player->hurt();
+            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
         }
     }
 }
