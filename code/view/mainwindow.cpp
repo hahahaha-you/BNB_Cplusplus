@@ -130,12 +130,16 @@ void MainWindow::paintEvent(QPaintEvent *)
                 case LASER_EXPLOSION_RIGHT :
                 case LASER_EXPLOSION_CENTRAL_LEFT :
                 case LASER_EXPLOSION_CENTRAL_RIGHT :
-                    painter.drawPixmap(x + 10, y, BLOCK_SIDE_LENGTH + 1 - 20, BLOCK_SIDE_LENGTH + 1, laserRightPicture);
+                    painter.drawPixmap(x, y + 10, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1 - 20, laserRightPicture);
+//                    painter.drawPixmap(x + 10, y, BLOCK_SIDE_LENGTH + 1 - 20, BLOCK_SIDE_LENGTH + 1, laserRightPicture);
+                    break;
                 case LASER_EXPLOSION_CENTRAL_UP :
                 case LASER_EXPLOSION_CENTRAL_DOWN :
                 case LASER_EXPLOSION_UP :
                 case LASER_EXPLOSION_DOWN :
-                    painter.drawPixmap(x, y + 10, BLOCK_SIDE_LENGTH + 1, BLOCK_SIDE_LENGTH + 1 - 20, laserUpPicture);
+                    painter.drawPixmap(x + 10, y, BLOCK_SIDE_LENGTH + 1 - 20, BLOCK_SIDE_LENGTH + 1, laserUpPicture);
+
+                    break;
                 default:
                     break;
                 }
