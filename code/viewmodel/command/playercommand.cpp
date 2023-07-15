@@ -86,14 +86,14 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
             currentMap->getBlock(bombCoordinate.first, bombCoordinate.second - i)->downType();
         }
     }
-    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() > 5) return player->hurt();
+    if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second)->getType() > 5) return true;//player->hurt();
     if (currentCoordinate.second != (int)currentCoordinate.second) {
-        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first, currentCoordinate.second + 1)->getType() > 5) return true;//player->hurt();
     }
     if (currentCoordinate.first != (int)currentCoordinate.first) {
-        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() > 5) return player->hurt();
+        if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second)->getType() > 5) return true;//player->hurt();
         if (currentCoordinate.second != (int)currentCoordinate.second) {
-            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() > 5) return player->hurt();
+            if (currentMap->getBlock(currentCoordinate.first + 1, currentCoordinate.second + 1)->getType() > 5) return true;// player->hurt();
         }
     }
 }

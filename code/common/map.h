@@ -58,7 +58,7 @@ public:
         mapBomb.erase(mapBomb.begin());
     }
     void deleteWeapon() {
-        mapBomb.erase(mapBomb.end()--);
+        mapBomb.erase(mapBomb.end()-1);
     }
     inline mapWeapon* getBomb(int index) {
         if (index >= mapBomb.size()) return nullptr;
@@ -67,6 +67,7 @@ public:
     inline mapWeapon* getBomb() {
         return mapBomb.back();
     }
+    inline int getBombNumber() {return mapBomb.size();}
     inline int getRowSize() const { return rowSize; }
     inline int getColumnSize() const { return columnSize; }
 

@@ -64,8 +64,11 @@ public:
     inline void deleteLastWeapon() {
         lastBombCoordinate.first = -1;
         lastBombCoordinate.second = -1;
+//        if(playerWeapon.size()==0){ this->hurt();return ;}
         delete playerWeapon.back();
-        playerWeapon.erase(playerWeapon.end()--);
+//        this->hurt();return ;
+        playerWeapon.erase(playerWeapon.end()-1);
+
     }
 
     inline std:: pair<int, int> getLastBombCoordinate() { return lastBombCoordinate; }

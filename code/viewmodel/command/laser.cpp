@@ -15,20 +15,21 @@ bool Laser::pickUp(){
                     player->setBomb("Laser");
                     type = LASER;
                     state = PICKUP;
+                    return true;
                 }else if(propPick->getType()==SPEEDUP){
-                    type = SPEEDUP;
-                    state = PICKUP;
-                    player->setBomb("Speedup");
+//                    type = SPEEDUP;
+//                    state = PICKUP;
+//                    player->setBomb("Speedup");
                     player->changeSpeed(player->getSpeed()*2);
-                    currentMap->setBomb(coordinate,player);
-                    currentMap->getBomb()->setTime();
+//                    currentMap->setBomb(coordinate,player);
+//                    currentMap->getBomb()->setTime();
                 }else if(propPick->getType()==BIGBOMB) {
                     std::vector <characterWeapon*> playerWeapon;
                     player->getWeapon(playerWeapon);
                     playerWeapon[0]->changeDistance();
                 }
                 
-                return true;
+                return false;
             }
             
         }
@@ -39,16 +40,25 @@ bool Laser::pickUp(){
 
 bool Laser::explosionLaser(Character * explodePlayer){
     //get the coordinate of the bomb
-	std::pair<double, double> currentCoordinate = player->getCoordinate();
+//	std::pair<double, double> currentCoordinate = player->getCoordinate();
 	//get the coordinate of the player
 	// std::pair<int, int> otherPlayerCoordinate = std::pair<int,int>((int)(otherPlayer->getCoordinate().first),(int)(otherPlayer->getCoordinate().second));
-	coordinate = std::pair<int,int>((int)(player->getCoordinate().first),(int)(player->getCoordinate().second));          //bomb_index
+//    std::cout<<"a";
+//    player->hurt();return true;
+            //bomb_index
     //currentMap->setBomb(coordinate,player);
-    currentMap->getBomb()->setTime();
+//    player->hurt();return true;
+//    if(!currentMap->getBomb())player->hurt();
+//    if(currentMap->getBombNumber()==0){player->hurt();return true;}
 
-    playerDirection = player->getDirection();
+//    std::cout<<"B";
+//    player->hurt();return true;
+
+//    std::cout<<"c";
     int ret=false;
     std::pair<int,int> PlayerCoordinate = std::pair<int,int>((int)explodePlayer->getCoordinate().first, (int)explodePlayer->getCoordinate().second);
+//    std::cout<<"d";
+//    player->hurt();return true;
     switch (playerDirection)
     {
     case LEFT:
@@ -76,7 +86,7 @@ bool Laser::explosionLaser(Character * explodePlayer){
     case UP:
         currentMap->getBlock(coordinate.first,coordinate.second)->upType(LASER_EXPLOSION_CENTRAL_UP);
         for (int i = coordinate.second-1; i >=0 ; i--) {
-            currentMap->getBlock(coordinate.first, i)->upType(LASER_EXPLOSION_UP);
+            currentMap->getBlock(coordinate.first, i)->explodeType(LASER_EXPLOSION_UP);
             if (PlayerCoordinate == std::make_pair(coordinate.first, i)) {
                 if (explodePlayer->hurt()) {
                     ret = true;
@@ -87,7 +97,7 @@ bool Laser::explosionLaser(Character * explodePlayer){
     case DOWN:
         currentMap->getBlock(coordinate.first,coordinate.second)->upType(LASER_EXPLOSION_CENTRAL_DOWN);
         for (int i = coordinate.second+1; i <currentMap->getRowSize() ; i++) {
-            currentMap->getBlock(coordinate.first, i)->upType(LASER_EXPLOSION_DOWN);
+            currentMap->getBlock(coordinate.first, i)->explodeType(LASER_EXPLOSION_DOWN);
             if (PlayerCoordinate == std::make_pair(coordinate.first, i)) {       
                 if (explodePlayer->hurt()) {
                     ret = true;
@@ -120,33 +130,15 @@ bool Laser::changeState(){
     }
     case PICKUP :
     {
-        if(type == SPEEDUP) {
-            double passedTime = clock() - currentMap->getBomb()->getTime();
-            if(passedTime > 1000){
-                player->changeSpeed(player->getSpeed()/2);
-                player->deleteLastWeapon();
-                currentMap->deleteWeapon();
-                std::vector<characterWeapon*> playerWeapon;
-                player->getWeapon(playerWeapon);
-                std::string weaponID=playerWeapon.back()->getID();
-                if(weaponID!="bomb"){
-                    state = PICKUP;
-                    if(weaponID=="Laser"){
-                        type = LASER;
-                    }else if (weaponID == "SPEEDUP"){
-                        type = SPEEDUP;
-                    }
-                }else {
-                    state = WITHOUT;
-                }
-            }
-        }else {
-            pickUp();
-            std::vector<characterWeapon*> playerWeapon;
-            player->getWeapon(playerWeapon);
-            if(player->getOperation()==ATTACT && playerWeapon.back()->getID()!="bomb"){
-                state = EXCITE;
-            }
+        pickUp();
+        if(player->getOperation()==ATTACT){
+            state = EXCITE;
+            playerDirection = player->getDirection();
+            coordinate = std::pair<int,int>((int)(player->getCoordinate().first),(int)(player->getCoordinate().second));
+            currentMap->setBomb(coordinate,player);
+            currentMap->getBomb()->setTime();
+            if(explosionLaser(player) ){
+                return false;}//|| explosionLaser(otherPlayer)) return false;
         }
         break;
     }
@@ -154,20 +146,27 @@ bool Laser::changeState(){
     {
         if(explosionLaser(player) || explosionLaser(otherPlayer)) return false;
         double passedTime = clock() - currentMap->getBomb()->getTime();
-        if(passedTime > 1000){
+//        player->hurt();return true;
+        if(passedTime > 950){
+//            player->hurt();return true;
             recover();
+//            player->hurt();return true;
             player->deleteLastWeapon();
+//            player->hurt();return true;
             currentMap->deleteWeapon();
+//            player->hurt();return true;
             std::vector<characterWeapon*> playerWeapon;
             player->getWeapon(playerWeapon);
+//            if(playerWeapon.size()==2){player->hurt();return true;}
             std::string weaponID=playerWeapon.back()->getID();
-            if(weaponID!="bomb"){
+            if(weaponID!="bomb"&&weaponID=="Laser"){
                 state = PICKUP;
-                if(weaponID=="Laser"){
-                    type = LASER;
-                }else if (weaponID == "SPEEDUP"){
-                    type = SPEEDUP;
-                }
+//                if(weaponID=="Laser"){
+//                   player->hurt();return true;
+//                    type = LASER;
+//                }else if (weaponID == "SPEEDUP"){
+//                    type = SPEEDUP;
+//                }
             }else {
                 state = WITHOUT;
             }
