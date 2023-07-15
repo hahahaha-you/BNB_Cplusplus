@@ -9,6 +9,7 @@ void CommandViewModel :: commandSlots(int playerNum, int opr){
     else if(opr==4)playerControl[playerNum]->getPlayer()->updateOperation(ATTACT);
     else if(opr==5)playerControl[playerNum]->getPlayer()->updateOperation(INVALID_OPERATION);
     playerControl[playerNum]->playerOperation();
+    playerWeapons[playerNum]->changeState();
     return;
 }
 
@@ -24,10 +25,37 @@ void CommandViewModel :: initial(){
     Character * player1 = getPlayerControl()[0]->getPlayer();
     Character * player2 = getPlayerControl()[1]->getPlayer();
     Laser * L1 = new Laser(player1,player2,map);
-    L1->changeState();
+    //L1->changeState();
     playerWeapons.push_back(L1);
     Laser * L2 = new Laser(player2,player1,map);
-    L2->changeState();
+    //L2->changeState();
     playerWeapons.push_back(L2);
+    //initial
+    std::ifstream  fin;
+
+    fin.open ("../bombtest/resources/maps/laserMap.txt" ,std::ios::in);
+    int j=0,k=0,m=0,pID=0;        //different IDs of different props
+    for(int i = 0; i < map->getColumnSize()*map->getRowSize(); i++){
+        char ch;
+        fin >> ch;
+        if (ch == '0')
+            continue;
+        else if (ch == ' ' || ch == '\n') i--;
+        else if(map->getBlock(i%map->getColumnSize(),i/map->getColumnSize())->getType()==BLOCK_CAN_BE_DESTROYED_1) {
+            propType currentProp;
+            if (ch == '1') {
+                currentProp = LASER;
+                pID=j++;
+            }else if (ch == '2'){
+                currentProp = SPEEDUP;
+                pID=k++;
+            }else if (ch == '3'){
+                currentProp = BIGBOMB;
+                pID=m++;
+            }
+            Prop * p = new Prop(std::make_pair(i%map->getColumnSize(),i/map->getColumnSize()),currentProp,pID);
+            map->addProp(p);
+        }
+    }
 }
 

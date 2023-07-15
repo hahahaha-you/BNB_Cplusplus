@@ -24,7 +24,7 @@ public:
     inline int getID() { return ID; }
     inline bool pickUpProp() {
         if(exist){
-            exist = false; 
+            exist = false;
             return true;
         }
         return false;

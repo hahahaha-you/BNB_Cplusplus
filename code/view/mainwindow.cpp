@@ -77,6 +77,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                         }
                         if (!pr->propExists()) {
                             lastPropIndex = propIndex;
+                            ++propIndex;
                             continue;
                         }
                         int propX = pr->getCoordinate().first;

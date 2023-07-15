@@ -1,32 +1,7 @@
 #include"laser.h"
 
-Laser::Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap) : player(newPlayer),otherPlayer(newOtherPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)) {
-    //initial
-    std::ifstream  fin;
-    fin.open ("../bombtest/resources/maps/laserMap.txt" ,std::ios::in);
-    int j=0,k=0,m=0,pID=0;        //different IDs of different props 
-    for(int i = 0; i < currentMap->getColumnSize()*currentMap->getRowSize(); i++){
-        char ch;
-        fin >> ch;
-        if (ch == '0')
-            continue;
-        else if (ch == ' ' || ch == '\n') i--;
-        else if(currentMap->getBlock(i%currentMap->getColumnSize(),i/currentMap->getColumnSize())->getType()==BLOCK_CAN_BE_DESTROYED_1) {
-            propType currentProp;
-            if (ch == '1') {
-                currentProp = LASER;
-                pID=j++;
-            }else if (ch == '2'){
-                currentProp = SPEEDUP;
-                pID=k++;
-            }else if (ch == '3'){
-                currentProp = BIGBOMB;
-                pID=m++;
-            }
-            Prop * p = new Prop(std::make_pair(i%currentMap->getColumnSize(),i/currentMap->getColumnSize()),currentProp,pID);
-            currentMap->addProp(p);
-        }
-    }
+Laser::Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap) : player(newPlayer),otherPlayer(newOtherPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)),state(WITHOUT)
+{
 }
 
 bool Laser::pickUp(){
@@ -64,11 +39,11 @@ bool Laser::pickUp(){
 
 bool Laser::explosionLaser(Character * explodePlayer){
     //get the coordinate of the bomb
-//	std::pair<double, double> currentCoordinate = player->getCoordinate();
+	std::pair<double, double> currentCoordinate = player->getCoordinate();
 	//get the coordinate of the player
 	// std::pair<int, int> otherPlayerCoordinate = std::pair<int,int>((int)(otherPlayer->getCoordinate().first),(int)(otherPlayer->getCoordinate().second));
 	coordinate = std::pair<int,int>((int)(player->getCoordinate().first),(int)(player->getCoordinate().second));          //bomb_index
-    currentMap->setBomb(coordinate,player);
+    //currentMap->setBomb(coordinate,player);
     currentMap->getBomb()->setTime();
 
     playerDirection = player->getDirection();
