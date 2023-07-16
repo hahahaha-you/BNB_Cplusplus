@@ -33,7 +33,7 @@ void CommandViewModel :: initial(){
     //initial
     std::ifstream  fin;
 
-    fin.open ("../bombtest/resources/maps/laserMap.txt" ,std::ios::in);
+    fin.open ("D:/library/bombtest/resources/maps/laserMap.txt" ,std::ios::in);
     int j=0,k=0,m=0,pID=0;        //different IDs of different props
     for(int i = 0; i < map->getColumnSize()*map->getRowSize(); i++){
         char ch;

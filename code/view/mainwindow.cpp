@@ -35,23 +35,23 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    QPixmap background("../bombtest/resources/images/mainCover.jpg");
+    QPixmap background("D:/library/bombtest/resources/images/mainCover.jpg");
     painter.drawPixmap(0, 0, 560, 560, background);
     if (state == RUNNING || state == END) {
-        QPixmap blockPicture("../bombtest/resources/images/2BLOCKBG.png");
-        QPixmap bombPicture("../bombtest/resources/images/bomb.png");
-        QPixmap boxPicture("../bombtest/resources/images/2BLOCKYELLOW.png");
-        QPixmap stonePicture("../bombtest/resources/images/2BLOCKBLACK.png");
-        QPixmap upWavePicture("../bombtest/resources/images/upwave.png");
-        QPixmap downWavePicture("../bombtest/resources/images/downwave.png");
-        QPixmap leftWavePicture("../bombtest/resources/images/leftwave.png");
-        QPixmap rightWavePicture("../bombtest/resources/images/rightwave.png");
-        QPixmap centerWavePicture("../bombtest/resources/images/centerwave.png");
-        QPixmap speedPicture("../bombtest/resources/images/speed.png");
-        QPixmap boomPicture("../bombtest/resources/images/boom.png");
-        QPixmap laserGunPicture("../bombtest/resources/images/lasergun.png");
-        QPixmap laserUpPicture("../bombtest/resources/images/laserup.png");
-        QPixmap laserRightPicture(("../bombtest/resources/images/laserright.png"));
+        QPixmap blockPicture("D:/library/bombtest/resources/images/2BLOCKBG.png");
+        QPixmap bombPicture("D:/library/bombtest/resources/images/bomb.png");
+        QPixmap boxPicture("D:/library/bombtest/resources/images/2BLOCKYELLOW.png");
+        QPixmap stonePicture("D:/library/bombtest/resources/images/2BLOCKBLACK.png");
+        QPixmap upWavePicture("D:/library/bombtest/resources/images/upwave.png");
+        QPixmap downWavePicture("D:/library/bombtest/resources/images/downwave.png");
+        QPixmap leftWavePicture("D:/library/bombtest/resources/images/leftwave.png");
+        QPixmap rightWavePicture("D:/library/bombtest/resources/images/rightwave.png");
+        QPixmap centerWavePicture("D:/library/bombtest/resources/images/centerwave.png");
+        QPixmap speedPicture("D:/library/bombtest/resources/images/speed.png");
+        QPixmap boomPicture("D:/library/bombtest/resources/images/boom.png");
+        QPixmap laserGunPicture("D:/library/bombtest/resources/images/lasergun.png");
+        QPixmap laserUpPicture("D:/library/bombtest/resources/images/laserup.png");
+        QPixmap laserRightPicture(("D:/library/bombtest/resources/images/laserright.png"));
         QPixmap playersPicture;
         Block *aBlock;
         int rowNumber = map->getRowSize();
@@ -172,7 +172,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                 break;
             }
             if (players[i]->getLive() != 0) {
-                playersPicture.load("../bombtest/resources/images/" + playerName + ".png");
+                playersPicture.load("D:/library/bombtest/resources/images/" + playerName + ".png");
                 double characterX = players[i]->getCoordinate().first;
                 double characterY = players[i]->getCoordinate().second;
                 painter.drawPixmap((characterX + 1) * BLOCK_SIDE_LENGTH, (characterY + 1) * BLOCK_SIDE_LENGTH,
@@ -180,12 +180,12 @@ void MainWindow::paintEvent(QPaintEvent *)
             }
         }
         if (state == END) {
-            QPixmap end("../bombtest/resources/images/gameover.png");
+            QPixmap end("D:/library/bombtest/resources/images/gameover.png");
             painter.drawPixmap(120,200,320,160,end);
         }
     }
     else if (state == START){
-        QPixmap icon("../bombtest/resources/images/start.png");
+        QPixmap icon("D:/library/bombtest/resources/images/start.png");
         start->setParent(this);
         start->setIcon(icon);
         start->setIconSize(QSize(200,70));
