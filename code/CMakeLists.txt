@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.10)
 
-#这两行的路径改成自己电脑上安装qt附带的编译器所在的路径
+#这两行的路径改成自己所需使用的编译器所在的路径
 set (CMAKE_C_COMPILER "C:/Qt/Tools/mingw1120_64/bin/gcc.exe")
 set (CMAKE_CXX_COMPILER "C:/Qt/Tools/mingw1120_64/bin/g++.exe")
 
