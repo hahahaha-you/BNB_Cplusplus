@@ -8,7 +8,7 @@ https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b09
 ![Alt text](image.png)  
 （本人使用Windows10系统，在安装完成后，需要将Qt的第三方库路径（形如“C:\Qt\6.5.1\mingw_64\bin”）添加进Path环境变量）
 # 构建
-在构建前，请先将code文件夹下的CMakeLists.txt文件中设置的编译器路径（在第4、5行）改为自己在电脑上的编译器所在的路径。  
+在构建前，请先将code文件夹下的CMakeLists.txt文件中设置的编译器路径（在第4、5行）改为在自己电脑上的编译器所在的路径。  
 本人使用Windows10系统，在其下用cmake+MinGW进行构建并生成可执行文件。（MinGW经过一些处理：在其二进制文件（bin）目录下，将mingw32-make.exe复制粘贴一份，并将得到的新文件命名为make.exe）  
 使用命令行工具进入code目录后，构建命令如下：
 ```
