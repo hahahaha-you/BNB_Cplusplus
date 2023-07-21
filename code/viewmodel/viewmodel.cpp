@@ -1,5 +1,5 @@
 #pragma once
-#include"commandviewmodel.h"
+#include"viewmodel.h"
 
 void CommandViewModel :: commandSlots(int playerNum, int opr){
     if(opr==0)playerControl[playerNum]->getPlayer()->updateOperation(TURN_LEFT);
@@ -16,24 +16,24 @@ void CommandViewModel :: commandSlots(int playerNum, int opr){
 void CommandViewModel :: initial(){
     map = new Map();
     map->initial();
-    playerCommand* p1 = new playerCommand();
+    PlayerCommand* p1 = new PlayerCommand();
     p1->initial(std::make_pair<double, double>(0,0), map);
-    playerCommand* p2 = new playerCommand();
+    PlayerCommand* p2 = new PlayerCommand();
     p2->initial(std::make_pair<double, double>(11,11), map);
     playerControl.push_back(p1);
     playerControl.push_back(p2);
     Character * player1 = getPlayerControl()[0]->getPlayer();
     Character * player2 = getPlayerControl()[1]->getPlayer();
-    Laser * L1 = new Laser(player1,player2,map);
+    PropCommand * L1 = new PropCommand(player1,player2,map);
     //L1->changeState();
     playerWeapons.push_back(L1);
-    Laser * L2 = new Laser(player2,player1,map);
+    PropCommand * L2 = new PropCommand(player2,player1,map);
     //L2->changeState();
     playerWeapons.push_back(L2);
     //initial
     std::ifstream  fin;
 
-    fin.open ("D:/library/bombtest/resources/maps/laserMap.txt" ,std::ios::in);
+    fin.open ("../resources/maps/laserMap.txt" ,std::ios::in);
     int j=0,k=0,m=0,pID=0;        //different IDs of different props
     for(int i = 0; i < map->getColumnSize()*map->getRowSize(); i++){
         char ch;

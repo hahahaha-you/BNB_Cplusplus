@@ -1,10 +1,10 @@
-#include"laser.h"
+#include"propcommand.h"
 
-Laser::Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap) : player(newPlayer),otherPlayer(newOtherPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)),state(WITHOUT)
+PropCommand::PropCommand(Character* newPlayer,Character * newOtherPlayer, Map* newMap) : player(newPlayer),otherPlayer(newOtherPlayer), currentMap(newMap), coordinate(std::pair<int,int>(-1,-1)),state(WITHOUT)
 {
 }
 
-bool Laser::pickUp(){
+bool PropCommand::pickUp(){
     std::pair<int,int> playerCoordinate =std::make_pair((int)player->getCoordinate().first,(int)player->getCoordinate().second);
     for(int i=0;i<currentMap->getPropNumber();i++){
         Prop * propPick=currentMap->getProp(i);
@@ -38,27 +38,9 @@ bool Laser::pickUp(){
 }
 
 
-bool Laser::explosionLaser(Character * explodePlayer){
-    //get the coordinate of the bomb
-//	std::pair<double, double> currentCoordinate = player->getCoordinate();
-	//get the coordinate of the player
-	// std::pair<int, int> otherPlayerCoordinate = std::pair<int,int>((int)(otherPlayer->getCoordinate().first),(int)(otherPlayer->getCoordinate().second));
-//    std::cout<<"a";
-//    player->hurt();return true;
-            //bomb_index
-    //currentMap->setBomb(coordinate,player);
-//    player->hurt();return true;
-//    if(!currentMap->getBomb())player->hurt();
-//    if(currentMap->getBombNumber()==0){player->hurt();return true;}
-
-//    std::cout<<"B";
-//    player->hurt();return true;
-
-//    std::cout<<"c";
+bool PropCommand::explosionLaser(Character * explodePlayer){
     int ret=false;
     std::pair<int,int> PlayerCoordinate = std::pair<int,int>((int)explodePlayer->getCoordinate().first, (int)explodePlayer->getCoordinate().second);
-//    std::cout<<"d";
-//    player->hurt();return true;
     switch (playerDirection)
     {
     case LEFT:
@@ -111,14 +93,14 @@ bool Laser::explosionLaser(Character * explodePlayer){
     return ret;
 }
 
-void Laser::recover(){
+void PropCommand::recover(){
     for(int i=currentMap->getColumnSize()*currentMap->getRowSize()-1;i>=0;i--){
         currentMap->getBlock(i%currentMap->getColumnSize(),i/currentMap->getRowSize())->recoverType();
     }
 }
 
 
-bool Laser::changeState(){
+bool PropCommand::changeState(){
     switch (state)
     {
     case WITHOUT :

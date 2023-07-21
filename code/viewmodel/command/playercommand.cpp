@@ -1,6 +1,6 @@
 #include"playercommand.h"
 
-bool playerCommand::playerOperation() {
+bool PlayerCommand::playerOperation() {
     if (player->getLive() == 0) return true;
     if (player->getOperation() < 4) this->move();
     else if (player->getOperation() == ATTACT)this->fight();
@@ -28,7 +28,7 @@ bool playerCommand::playerOperation() {
     return false;
 }
 
-bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBlock) {
+bool PlayerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBlock) {
     //get the coordinate of the player
     std::pair<double, double> currentCoordinate = player->getCoordinate();
     //get the coordinate of the bomb
@@ -102,7 +102,7 @@ bool playerCommand::explosion(int bombDistance, int bombIndex, bool isRemoveBloc
     }
 }
 
-void playerCommand::move() {
+void PlayerCommand::move() {
     std::pair<double, double> newCoordinate = player->getCoordinate();
     switch (player->getOperation()) {
     case TURN_LEFT:
@@ -152,31 +152,11 @@ void playerCommand::move() {
 
     std::pair<int, int> bombCoordinate = player->getLastBombCoordinate();
     //check if the position has a bomb
-    /*
-    int checkIndex = 0;
-    if (bombCoordinate.first != -1) {
-        while (1) {
-            if (currentMap->getBomb(checkIndex) == nullptr) break;
-            if (((int)newCoordinate.first == currentMap->getBomb(checkIndex)->getCoordinate().first) &&
-                ((int)newCoordinate.second == currentMap->getBomb(checkIndex)->getCoordinate().second)) break;
-            checkIndex++;
-        }
-        if (currentMap->getBomb(checkIndex) == nullptr) player->deleteLastBomb();
-    }
-    checkIndex = 0;
-    if (bombCoordinate.first == -1) {
-        while (1) {
-            if (currentMap->getBomb(checkIndex) == nullptr) break;
-            if (((int)newCoordinate.first == currentMap->getBomb(checkIndex)->getCoordinate().first) &&
-                ((int)newCoordinate.second == currentMap->getBomb(checkIndex)->getCoordinate().second)) return;
-            checkIndex++;
-        }
-    }
-    */
+
     player->move(newCoordinate);
 }
 
-void playerCommand::fight() {
+void PlayerCommand::fight() {
     std::pair<int, int> currentCoordinate;
     currentCoordinate.first = player->getCoordinate().first + 0.5;
     currentCoordinate.second = player->getCoordinate().second + 0.5;
@@ -188,7 +168,7 @@ void playerCommand::fight() {
     }
 }
 
-bool playerCommand::changeBombState(int checkIndex){
+bool PlayerCommand::changeBombState(int checkIndex){
     if (currentMap->getBomb(checkIndex) == nullptr) return false;
     double passedTime = clock() - currentMap->getBomb(checkIndex)->getTime();
     if (currentMap->getBomb(checkIndex)->getState() == 0) {

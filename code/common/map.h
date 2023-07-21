@@ -22,7 +22,7 @@ public:
     }
     void initial() {
         std::ifstream  fin;
-        fin.open ("D:/library/bombtest/resources/maps/map.txt" ,std::ios::in);
+        fin.open ("../resources/maps/map.txt" ,std::ios::in);
         int j=0,k=0,m=0;
         for(int i = 0; i < rowSize * columnSize; i++){
             char ch;

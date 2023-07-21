@@ -48,11 +48,9 @@ private:
     std::vector<Character *> players;
     QList<int> keys;
     QTimer* keyRespondTimer;
-    //QTimer* checkBombsTimer;
     QPushButton *start;
     WindowState state = START;
     void slotTimeOut();
-    void slotCheckBombs();
     void slotChangeState();
     void slotOpenEndWindow(int playerNumber);
 };

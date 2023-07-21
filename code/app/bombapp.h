@@ -2,7 +2,7 @@
 #define BOMBAPP_H
 
 #include "../view/mainwindow.h"
-#include "../viewmodel/commandviewmodel.h"
+#include "../viewmodel/viewmodel.h"
 
 class BombApp
 {

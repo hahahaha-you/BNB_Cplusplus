@@ -1,7 +1,7 @@
 #pragma once
 #include<QObject>
 #include"command/playercommand.h"
-#include"command/laser.h"
+#include"command/propcommand.h"
 
 class CommandViewModel : public QObject{
 	 Q_OBJECT
@@ -11,10 +11,10 @@ public:
     CommandViewModel()=default;
     void initial();
     inline Map* getMap(){ return map;}
-    inline std::vector<playerCommand *> getPlayerControl(){ return playerControl;}
-    std::vector<Laser *> getPlayerWeapons() {return playerWeapons;}
+    inline std::vector<PlayerCommand *> getPlayerControl(){ return playerControl;}
+    std::vector<PropCommand *> getPlayerWeapons() {return playerWeapons;}
 private:
 	Map* map;
-    std::vector<playerCommand *> playerControl;
-    std::vector<Laser *> playerWeapons;
+    std::vector<PlayerCommand *> playerControl;
+    std::vector<PropCommand *> playerWeapons;
 }; 

@@ -1,9 +1,9 @@
 #pragma once
-#include"common/map.h"
+#include"../../common/map.h"
 
-class playerCommand{
+class PlayerCommand{
 public:
-    playerCommand()=default;
+    PlayerCommand()=default;
     void initial(std::pair<double,double> coordinate, Map *map) {
         currentMap = map;
         player = new Character(coordinate,0.07);
@@ -19,8 +19,8 @@ public:
 	// the bomb has 3 state: not exist, ready to explode, explode
 	bool changeBombState(int checkIndex);
 	bool explosion(int bombDistance, int bombIndex, bool isRemoveBlock);
-	~playerCommand(){}
+	~PlayerCommand(){}
 private:
-    Character* player;
-	Map* currentMap;
+    Character *player;
+	Map *currentMap;
 };  

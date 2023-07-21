@@ -9,14 +9,14 @@ enum laserState{
     EXCITE
 };
 
-class Laser{
+class PropCommand{
 public:
-    Laser(Character* newPlayer,Character * newOtherPlayer, Map* newMap);
+    PropCommand(Character* newPlayer,Character * newOtherPlayer, Map* newMap);
     bool pickUp();
     bool explosionLaser(Character * explodePlayer);
     void recover();
     bool changeState();
-	~Laser(){}
+	~PropCommand(){}
 private:
 	Character* player;
     Character * otherPlayer;
